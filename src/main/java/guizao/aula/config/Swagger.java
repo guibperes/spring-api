@@ -32,8 +32,9 @@ public class Swagger implements WebMvcConfigurer {
       .paths(PathSelectors.any())
       .build()
       .apiInfo(new ApiInfoBuilder()
-      .title("Aula")
-      .description("It contains all needed information to interact with this API.")
-      .version("v1.0").build());
+      .title("Spring API")
+      .description("My base project for studing Spring Boot Framework for API construct.")
+      .version("v1.0")
+      .license("MIT License").build());
   }
 }
