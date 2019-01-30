@@ -1,0 +1,73 @@
+package guizao.aula.base;
+
+import java.util.List;
+
+import javax.validation.Valid;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import springfox.documentation.annotations.ApiIgnore;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+
+public class BaseController<ENTITY extends BaseEntity, REPOSITORY extends JpaRepository<ENTITY, String>, SERVICE extends BaseService<ENTITY, REPOSITORY>> {
+
+  @Autowired
+  private SERVICE service;
+
+  @PostMapping
+  public ResponseEntity<Optional<String>> post (@Valid @RequestBody ENTITY entity, @ApiIgnore Errors errors) {
+    if (!errors.hasErrors()) {
+      Optional<String> id = service.create(entity);
+      return new ResponseEntity<>(id, HttpStatus.CREATED);
+    }
+    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+  }
+
+  @PutMapping
+  public ResponseEntity<Optional<String>> put (@Valid @RequestBody ENTITY entity, @ApiIgnore Errors errors) {
+    if (!errors.hasErrors()) {
+      Optional<String> id = service.update(entity);
+      if (id.isPresent()) {
+        return new ResponseEntity<>(id, HttpStatus.OK);
+      }
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Optional<?>> delete (@PathVariable String id) {
+    Optional<Boolean> deleted = service.delete(id);
+    if (deleted.isPresent()) {
+      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+  }
+
+  @GetMapping
+  public ResponseEntity<Optional<List<ENTITY>>> getAll() {
+    return new ResponseEntity<>(service.listAll(), HttpStatus.OK);
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<Optional<ENTITY>> getById (@PathVariable String id) {
+    Optional<ENTITY> response = service.listById(id);
+    if (response.isPresent()) {
+      return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+  }
+}
