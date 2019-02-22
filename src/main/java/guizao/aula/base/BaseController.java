@@ -28,20 +28,20 @@ public class BaseController<ENTITY extends BaseEntity, REPOSITORY extends JpaRep
   private SERVICE service;
 
   @PostMapping
-  public ResponseEntity<Optional<String>> post (@Valid @RequestBody ENTITY entity, @ApiIgnore Errors errors) {
+  public ResponseEntity<String> post (@Valid @RequestBody ENTITY entity, @ApiIgnore Errors errors) {
     if (!errors.hasErrors()) {
       Optional<String> id = service.create(entity);
-      return new ResponseEntity<>(id, HttpStatus.CREATED);
+      return new ResponseEntity<>(id.get(), HttpStatus.CREATED);
     }
     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
   }
 
   @PutMapping
-  public ResponseEntity<Optional<String>> put (@Valid @RequestBody ENTITY entity, @ApiIgnore Errors errors) {
+  public ResponseEntity<String> put (@Valid @RequestBody ENTITY entity, @ApiIgnore Errors errors) {
     if (!errors.hasErrors()) {
       Optional<String> id = service.update(entity);
       if (id.isPresent()) {
-        return new ResponseEntity<>(id, HttpStatus.OK);
+        return new ResponseEntity<>(id.get(), HttpStatus.OK);
       }
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -49,7 +49,7 @@ public class BaseController<ENTITY extends BaseEntity, REPOSITORY extends JpaRep
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<Optional<?>> delete (@PathVariable String id) {
+  public ResponseEntity<?> delete (@PathVariable String id) {
     Optional<Boolean> deleted = service.delete(id);
     if (deleted.isPresent()) {
       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -58,15 +58,15 @@ public class BaseController<ENTITY extends BaseEntity, REPOSITORY extends JpaRep
   }
 
   @GetMapping
-  public ResponseEntity<Optional<List<ENTITY>>> getAll() {
-    return new ResponseEntity<>(service.listAll(), HttpStatus.OK);
+  public ResponseEntity<List<ENTITY>> getAll() {
+    return new ResponseEntity<>(service.listAll().get(), HttpStatus.OK);
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Optional<ENTITY>> getById (@PathVariable String id) {
+  public ResponseEntity<ENTITY> getById (@PathVariable String id) {
     Optional<ENTITY> response = service.listById(id);
     if (response.isPresent()) {
-      return new ResponseEntity<>(response, HttpStatus.OK);
+      return new ResponseEntity<>(response.get(), HttpStatus.OK);
     }
     return new ResponseEntity<>(HttpStatus.NOT_FOUND);
   }
