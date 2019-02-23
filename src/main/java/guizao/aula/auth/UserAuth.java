@@ -32,6 +32,7 @@ public class UserAuth extends BaseEntity {
 
   @JsonIgnore
   @Column(unique = true)
+  @Size(max = 44)
   private String token;
 
   @NotBlank

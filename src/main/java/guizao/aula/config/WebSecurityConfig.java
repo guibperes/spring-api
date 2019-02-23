@@ -1,4 +1,4 @@
-package guizao.aula.auth;
+package guizao.aula.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
