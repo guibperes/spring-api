@@ -1,4 +1,4 @@
-package guizao.aula.auth;
+package guizao.aula.exception;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -11,7 +11,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UnauthorizedAuthEntryPoint implements AuthenticationEntryPoint, Serializable {
+public class UnauthorizedAuth implements AuthenticationEntryPoint, Serializable {
 
   private static final long serialVersionUID = 1L;
 

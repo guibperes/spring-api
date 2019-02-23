@@ -1,4 +1,4 @@
-package guizao.aula.auth;
+package guizao.aula.utils;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;

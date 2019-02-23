@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import guizao.aula.auth.Token;
 import guizao.aula.config.RestConfig;
+import guizao.aula.utils.Token;
 import io.swagger.annotations.Api;
 
 @RestConfig

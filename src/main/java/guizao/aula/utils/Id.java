@@ -1,4 +1,4 @@
-package guizao.aula.auth;
+package guizao.aula.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class Token {
+public class Id {
 
-  private String token;
+  private String id;
 }

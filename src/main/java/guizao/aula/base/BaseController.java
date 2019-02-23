@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import guizao.aula.auth.role.annotation.RoleApiUser;
+import guizao.aula.utils.Id;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,16 +29,16 @@ public class BaseController<ENTITY extends BaseEntity, REPOSITORY extends JpaRep
 
   @RoleApiUser
   @PostMapping
-  public ResponseEntity<String> post (@Valid @RequestBody ENTITY entity) {
-    Optional<String> id = service.create(entity);
+  public ResponseEntity<Id> post (@Valid @RequestBody ENTITY entity) {
+    Optional<Id> id = service.create(entity);
     return new ResponseEntity<>(id.get(), HttpStatus.CREATED);
   }
 
   @RoleApiUser
   @PutMapping
-  public ResponseEntity<String> put (@Valid @RequestBody ENTITY entity) {
-    Optional<String> id = service.update(entity);
-    return new ResponseEntity<String>(id.get(), HttpStatus.OK);
+  public ResponseEntity<Id> put (@Valid @RequestBody ENTITY entity) {
+    Optional<Id> id = service.update(entity);
+    return new ResponseEntity<>(id.get(), HttpStatus.OK);
   }
 
   @RoleApiUser
