@@ -1,5 +1,7 @@
 package guizao.aula.api.user;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,5 +28,13 @@ public class ApiUserService {
     user.setToken(tokenProvider.generateNewToken());
     ApiUser savedUser = userRepo.save(user);
     return new Token(savedUser.getToken());
+  }
+
+  public Optional<ApiUser> findByToken (String token) {
+    Optional<ApiUser> user = Optional.of(userRepo.findByToken(token));
+    if (user.isPresent()) {
+      return user;
+    }
+    return Optional.empty();
   }
 }

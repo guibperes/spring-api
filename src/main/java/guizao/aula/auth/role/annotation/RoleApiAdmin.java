@@ -11,6 +11,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
-@PreAuthorize("hasRole(T(guizao.aula.auth.role).API_ADMIN)")
+@PreAuthorize("hasRole(T(guizao.aula.auth.role.Role).API_ADMIN)")
 public @interface RoleApiAdmin {
 }

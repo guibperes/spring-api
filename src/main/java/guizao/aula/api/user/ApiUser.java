@@ -18,8 +18,10 @@ import lombok.Setter;
 @Setter
 public class ApiUser extends UserAuth {
 
+  private static final long serialVersionUID = 1L;
+
   @NotBlank
   @Size(min = 4, max = 40)
   @Column(unique = true, updatable = false)
-  private String username;
+  private String login;
 }
