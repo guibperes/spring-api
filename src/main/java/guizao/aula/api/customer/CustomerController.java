@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import guizao.aula.auth.role.annotation.RoleApiUser;
 import guizao.aula.base.BaseController;
 import guizao.aula.config.RestConfig;
 import io.swagger.annotations.Api;
@@ -17,6 +18,7 @@ public class CustomerController extends BaseController<Customer, CustomerReposit
   @Autowired
   private CustomerService service;
 
+  @RoleApiUser
   @GetMapping(path = "/search")
   public Customer findByName (@RequestParam(value = "name", required = true) String name) {
     return service.findByName(name);

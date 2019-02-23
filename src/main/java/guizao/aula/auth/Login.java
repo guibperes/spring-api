@@ -1,25 +1,22 @@
-package guizao.aula.api.user;
+package guizao.aula.auth;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import guizao.aula.auth.UserAuth;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter
-public class ApiUser extends UserAuth {
+public class Login {
 
   @NotBlank
   @Size(min = 4, max = 40)
-  @Column(unique = true, updatable = false)
   private String username;
+
+  @NotBlank
+  @Size(min = 6, max = 60)
+  private String password;
 }
