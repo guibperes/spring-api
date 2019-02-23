@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import guizao.aula.base.BaseController;
 import guizao.aula.config.RestConfig;
+import io.swagger.annotations.Api;
 
 @RestConfig
+@Api(tags = "Customer")
 @RequestMapping("/customer")
 public class CustomerController extends BaseController<Customer, CustomerRepository, CustomerService> {
 
