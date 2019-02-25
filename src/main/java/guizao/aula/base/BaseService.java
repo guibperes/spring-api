@@ -26,14 +26,16 @@ public class BaseService<ENTITY extends BaseEntity, REPOSITORY extends JpaReposi
     return Optional.empty();
   }
 
-  public void delete (String id) {
+  public Boolean delete (String id) {
     if (repo.existsById(id)) {
       repo.deleteById(id);
+      return true;
     }
+    return false;
   }
 
-  public Optional<List<ENTITY>> listAll () {
-    return Optional.of(repo.findAll());
+  public List<ENTITY> listAll () {
+    return repo.findAll();
   }
 
   public Optional<ENTITY> listById (String id) {

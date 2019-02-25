@@ -46,10 +46,13 @@ public class Swagger implements WebMvcConfigurer {
   }
 
   private List<Parameter> globalOperationParameters () {
-    ParameterBuilder aParameterBuilder = new ParameterBuilder();
-    aParameterBuilder.name("Token").modelRef(new ModelRef("string")).parameterType("header").required(false).build();
-    List<Parameter> aParameters = new ArrayList<Parameter>();
-    aParameters.add(aParameterBuilder.build());
-    return aParameters;
-}
+    ParameterBuilder parameterToken = new ParameterBuilder();
+    parameterToken.name("Token")
+      .modelRef(new ModelRef("string"))
+      .parameterType("header")
+      .required(false).build();
+    List<Parameter> parameters = new ArrayList<Parameter>();
+    parameters.add(parameterToken.build());
+    return parameters;
+  }
 }
