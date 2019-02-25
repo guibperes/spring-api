@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import guizao.aula.auth.role.Role;
+import guizao.aula.utils.Login;
 import guizao.aula.utils.Token;
 
 @Service
@@ -30,6 +31,16 @@ public class ApiUserService {
     Optional<ApiUser> user = Optional.of(userRepo.findByToken(token));
     if (user.isPresent()) {
       return user;
+    }
+    return Optional.empty();
+  }
+
+  public Optional<Token> login (Login login) {
+    Optional<ApiUser> user = userRepo.findByLogin(login.getUsername());
+    if (user.isPresent()) {
+      if (crypt.matches(login.getPassword(), user.get().getPassword())) {
+        return Optional.of(new Token(user.get().getToken()));
+      }
     }
     return Optional.empty();
   }

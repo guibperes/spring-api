@@ -1,5 +1,7 @@
 package guizao.aula.api.user;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import guizao.aula.config.RestConfig;
 import guizao.aula.exception.BadRequestException;
+import guizao.aula.exception.EntityNotFoundException;
+import guizao.aula.utils.Login;
 import guizao.aula.utils.Token;
 import io.swagger.annotations.Api;
 import springfox.documentation.annotations.ApiIgnore;
@@ -29,6 +33,18 @@ public class ApiUserController {
     if (!err.hasErrors()) {
       Token token = userService.register(user);
       return new ResponseEntity<Token>(token, HttpStatus.CREATED);
+    }
+    throw new BadRequestException("User", err);
+  }
+
+  @PostMapping("/login")
+  public ResponseEntity<Token> login (@Valid @RequestBody Login login, @ApiIgnore Errors err) {
+    if (!err.hasErrors()) {
+      Optional<Token> token = userService.login(login);
+      if (token.isPresent()) {
+        return new ResponseEntity<Token>(token.get(), HttpStatus.OK);
+      }
+      throw new EntityNotFoundException("User", login.getUsername() + ":" + login.getPassword());
     }
     throw new BadRequestException("User", err);
   }
