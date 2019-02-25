@@ -56,8 +56,8 @@ public class UserAuth extends BaseEntity implements UserDetails {
   @Override
   @JsonIgnore
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-    for (String role : this.roles) {
+    List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
+    for (String role : roles) {
       authorities.add(new SimpleGrantedAuthority(role));
     }
     return authorities;

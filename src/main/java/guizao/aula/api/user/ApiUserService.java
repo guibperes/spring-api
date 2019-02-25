@@ -21,18 +21,14 @@ public class ApiUserService {
 
   public Token register (ApiUser user) {
     user.setPassword(crypt.encode(user.getPassword()));
-    user.getRoles().add(Role.API_USER.name());
+    user.getRoles().add(Role.ROLE_API_USER.name());
     user.setToken(Token.generateNewToken());
     ApiUser savedUser = userRepo.save(user);
     return new Token(savedUser.getToken());
   }
 
   public Optional<ApiUser> findByToken (String token) {
-    Optional<ApiUser> user = Optional.of(userRepo.findByToken(token));
-    if (user.isPresent()) {
-      return user;
-    }
-    return Optional.empty();
+    return userRepo.findByToken(token);
   }
 
   public Optional<Token> login (Login login) {
