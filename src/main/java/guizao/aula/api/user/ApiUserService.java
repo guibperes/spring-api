@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import guizao.aula.api.user.log.ApiUserLoginLog;
+import guizao.aula.api.user.log.ApiUserLoginLogRepository;
 import guizao.aula.auth.role.Role;
+import guizao.aula.exception.UnauthorizedException;
 import guizao.aula.utils.Login;
 import guizao.aula.utils.Token;
 
@@ -15,6 +18,9 @@ public class ApiUserService {
 
   @Autowired
   private ApiUserRepository userRepo;
+
+  @Autowired
+  private ApiUserLoginLogRepository userLoginLogRepo;
 
   @Autowired
   private BCryptPasswordEncoder crypt;
@@ -35,8 +41,11 @@ public class ApiUserService {
     Optional<ApiUser> user = userRepo.findByLogin(login.getUsername());
     if (user.isPresent()) {
       if (crypt.matches(login.getPassword(), user.get().getPassword())) {
+        userLoginLogRepo.save(new ApiUserLoginLog(user.get(), true));
         return Optional.of(new Token(user.get().getToken()));
       }
+      userLoginLogRepo.save(new ApiUserLoginLog(user.get(), false));
+      throw new UnauthorizedException(login.getUsername());
     }
     return Optional.empty();
   }

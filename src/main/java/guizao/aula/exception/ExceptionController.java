@@ -32,4 +32,16 @@ public class ExceptionController {
     );
     return new ResponseEntity<CustomError>(err, status);
   }
+
+  @ExceptionHandler(UnauthorizedException.class)
+  @ResponseStatus(HttpStatus.UNAUTHORIZED)
+  public ResponseEntity<CustomError> handlerUnauthorizedLogin (UnauthorizedException exception) {
+    HttpStatus status = HttpStatus.UNAUTHORIZED;
+    CustomError err = new CustomError(
+      status.value(),
+      status.toString(),
+      exception.getMessage()
+    );
+    return new ResponseEntity<CustomError>(err, status);
+  }
 }
