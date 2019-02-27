@@ -1,4 +1,4 @@
-package guizao.aula.api.user.log;
+package guizao.aula.log.user;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;

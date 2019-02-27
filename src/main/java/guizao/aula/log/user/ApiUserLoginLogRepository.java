@@ -1,4 +1,4 @@
-package guizao.aula.api.user.log;
+package guizao.aula.log.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

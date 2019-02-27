@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import guizao.aula.api.user.log.ApiUserLoginLog;
-import guizao.aula.api.user.log.ApiUserLoginLogRepository;
+import guizao.aula.log.user.ApiUserLoginLog;
+import guizao.aula.log.user.ApiUserLoginLogRepository;
 import guizao.aula.auth.role.Role;
 import guizao.aula.exception.UnauthorizedException;
 import guizao.aula.utils.Login;
