@@ -24,7 +24,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @RestConfig
-@Api(tags = "User")
+@Api(tags = "ApiUser")
 @RequestMapping("/user")
 public class ApiUserController {
 
@@ -37,7 +37,7 @@ public class ApiUserController {
       Token token = userService.register(user);
       return new ResponseEntity<Token>(token, HttpStatus.CREATED);
     }
-    throw new BadRequestException("User", err);
+    throw new BadRequestException("ApiUser", err);
   }
 
   @PostMapping("/login")
@@ -47,9 +47,9 @@ public class ApiUserController {
       if (token.isPresent()) {
         return new ResponseEntity<Token>(token.get(), HttpStatus.OK);
       }
-      throw new EntityNotFoundException("User", login.getUsername() + ":" + login.getPassword());
+      throw new EntityNotFoundException("ApiUser", login.getUsername() + ":" + login.getPassword());
     }
-    throw new BadRequestException("User", err);
+    throw new BadRequestException("ApiUser", err);
   }
 
   @RoleApiUser
