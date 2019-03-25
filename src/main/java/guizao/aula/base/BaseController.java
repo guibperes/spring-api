@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import guizao.aula.auth.role.annotation.RoleApiUser;
 import guizao.aula.exception.BadRequestException;
-import guizao.aula.exception.EntityNotFoundException;
 import guizao.aula.utils.Id;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -41,8 +38,8 @@ public class BaseController<ENTITY extends BaseEntity, REPOSITORY extends JpaRep
   @PostMapping
   public ResponseEntity<Id> post (@Valid @RequestBody ENTITY entity, @ApiIgnore Errors err) {
     if (!err.hasErrors()) {
-      Optional<Id> id = service.create(entity);
-      return new ResponseEntity<>(id.get(), HttpStatus.CREATED);
+      Id id = service.create(entity);
+      return new ResponseEntity<Id>(id, HttpStatus.CREATED);
     }
     throw new BadRequestException(this.getEntityName(), err);
   }
@@ -51,38 +48,29 @@ public class BaseController<ENTITY extends BaseEntity, REPOSITORY extends JpaRep
   @PutMapping
   public ResponseEntity<Id> put (@Valid @RequestBody ENTITY entity, @ApiIgnore Errors err) {
     if (!err.hasErrors()) {
-      Optional<Id> id = service.update(entity);
-      if (id.isPresent()) {
-        return new ResponseEntity<>(id.get(), HttpStatus.OK);
-      }
-      throw new EntityNotFoundException(this.getEntityName(), entity.getId());
+      Id id = service.update(entity);
+      return new ResponseEntity<Id>(id, HttpStatus.OK);
     }
     throw new BadRequestException(this.getEntityName(), err);
   }
 
   @RoleApiUser
   @DeleteMapping("/{id}")
-  public ResponseEntity<?> delete (@PathVariable String id) {
-    Boolean deleted = service.delete(id);
-    if (deleted) {
-      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-    throw new EntityNotFoundException(this.getEntityName(), id);
+  public ResponseEntity<Void> delete (@PathVariable String id) {
+    service.delete(id);
+    return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
   }
 
   @RoleApiUser
   @GetMapping
   public ResponseEntity<List<ENTITY>> getAll() {
-    return new ResponseEntity<>(service.listAll(), HttpStatus.OK);
+    return new ResponseEntity<List<ENTITY>>(service.listAll(), HttpStatus.OK);
   }
 
   @RoleApiUser
   @GetMapping("/{id}")
   public ResponseEntity<ENTITY> getById (@PathVariable String id) {
-    Optional<ENTITY> response = service.listById(id);
-    if (response.isPresent()) {
-      return new ResponseEntity<>(response.get(), HttpStatus.OK);
-    }
-    throw new EntityNotFoundException(this.getEntityName(), id);
+    ENTITY entity = service.listById(id);
+    return new ResponseEntity<ENTITY>(entity, HttpStatus.OK);
   }
 }
