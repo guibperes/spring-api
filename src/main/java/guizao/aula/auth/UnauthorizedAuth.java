@@ -1,4 +1,4 @@
-package guizao.aula.exception;
+package guizao.aula.auth;
 
 import java.io.IOException;
 import java.io.Serializable;

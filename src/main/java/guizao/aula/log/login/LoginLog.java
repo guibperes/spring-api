@@ -1,4 +1,4 @@
-package guizao.aula.log.user;
+package guizao.aula.log.login;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -15,7 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ApiUserLoginLog extends BaseEntity {
+public class LoginLog extends BaseEntity {
 
   @ManyToOne
   private ApiUser apiUser;

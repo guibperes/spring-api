@@ -47,7 +47,7 @@ public class ApiUserController {
       if (token.isPresent()) {
         return new ResponseEntity<Token>(token.get(), HttpStatus.OK);
       }
-      throw new EntityNotFoundException("ApiUser", login.getUsername() + ":" + login.getPassword());
+      throw new EntityNotFoundException("ApiUser", login.getLogin() + ":" + login.getPassword());
     }
     throw new BadRequestException("ApiUser", err);
   }

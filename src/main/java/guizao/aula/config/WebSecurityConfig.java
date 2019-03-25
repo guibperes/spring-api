@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import guizao.aula.auth.AuthFilter;
-import guizao.aula.exception.UnauthorizedAuth;
+import guizao.aula.auth.UnauthorizedAuth;
 
 @Configuration
 @EnableWebSecurity

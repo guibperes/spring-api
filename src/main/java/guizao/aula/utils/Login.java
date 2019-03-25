@@ -14,7 +14,7 @@ public class Login {
 
   @NotBlank
   @Size(min = 4, max = 40)
-  private String username;
+  private String login;
 
   @NotBlank
   @Size(min = 6, max = 60)
