@@ -44,4 +44,16 @@ public class ExceptionController {
     );
     return new ResponseEntity<CustomError>(err, status);
   }
+
+  @ExceptionHandler(ProductAmountException.class)
+  @ResponseStatus(HttpStatus.CONFLICT)
+  public ResponseEntity<CustomError> handlerProductAmount (ProductAmountException exception) {
+    HttpStatus status = HttpStatus.CONFLICT;
+    CustomError err = new CustomError(
+      status.value(),
+      status.toString(),
+      exception.getMessage()
+    );
+    return new ResponseEntity<CustomError>(err, status);
+  }
 }

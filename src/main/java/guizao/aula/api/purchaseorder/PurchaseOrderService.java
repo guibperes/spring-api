@@ -13,6 +13,7 @@ import guizao.aula.api.customer.CustomerService;
 import guizao.aula.api.product.Product;
 import guizao.aula.api.product.ProductService;
 import guizao.aula.base.BaseService;
+import guizao.aula.exception.ProductAmountException;
 
 @Service
 public class PurchaseOrderService extends BaseService<PurchaseOrder, PurchaseOrderRepository> {
@@ -27,18 +28,20 @@ public class PurchaseOrderService extends BaseService<PurchaseOrder, PurchaseOrd
   private ProductService productService;
 
   @Transactional(propagation = Propagation.REQUIRED)
-  public String newOrder (String customerId, List<String> products) {
+  public String newOrder (String customerId, List<PurchaseOrderProductDTO> products) {
     Customer customer = customerService.listById(customerId);
-    List<Product> listProducts = new ArrayList<Product>();
-    for (String productId : products) {
-      Product product = productService.listById(productId);
-      product.setQuant(product.getQuant() - 1);
-      listProducts.add(product);
+    List<Product> list = new ArrayList<Product>();
+    for (PurchaseOrderProductDTO productDTO : products) {
+      Product product = productService.listById(productDTO.getId());
+      if (product.getAmount() - productDTO.getAmount() >= 0) {
+        product.setAmount(product.getAmount() - productDTO.getAmount());
+        productService.update(product);
+        list.add(product);
+      } else {
+        throw new ProductAmountException(product.getName());
+      }
     }
-    for (Product product : listProducts) {
-      productService.update(product);
-    }
-    PurchaseOrder order = purchaseOrderRepo.save(new PurchaseOrder(customer, listProducts));
+    PurchaseOrder order = purchaseOrderRepo.save(new PurchaseOrder(customer, list));
     return order.getId();
   }
 }

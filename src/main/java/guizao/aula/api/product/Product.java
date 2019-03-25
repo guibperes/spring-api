@@ -25,5 +25,5 @@ public class Product extends BaseEntity {
 
   @NotNull
   @Min(value = 0)
-  private int quant;
+  private int amount;
 }

@@ -31,7 +31,7 @@ public class PurchaseOrderController {
 
   @RoleApiUser
   @PostMapping("/{customerId}")
-  public ResponseEntity<Id> newOrder (@Valid @RequestBody List<String> products, @PathVariable String customerId, @ApiIgnore Errors err) {
+  public ResponseEntity<Id> newOrder (@Valid @RequestBody List<PurchaseOrderProductDTO> products, @PathVariable String customerId, @ApiIgnore Errors err) {
     if (!err.hasErrors()) {
       String orderId = purchaseOrderService.newOrder(customerId, products);
       return new ResponseEntity<Id>(new Id(orderId), HttpStatus.OK);
